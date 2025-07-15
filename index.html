@@ -23,32 +23,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.css" />
 </head>
 <body>
+  <div id="spinner"></div>
 
-<div id="spinner"></div>
+  <script>
+    const frames = [];
+    const frameCount = 36;
 
-<script>
-  // Генерация списка путей к изображениям
-  const frames = [];
-  const frameCount = 36; // ← если у тебя 36 кадров. Измени, если другое количество
-  for (let i = 1; i <= frameCount; i++) {
-    const num = i.toString().padStart(3, '0');
-    frames.push(`images/frame${num}.jpg`);
-  }
+    for (let i = 0; i < frameCount; i++) {
+      const num = i.toString().padStart(2, '0'); // 00, 01, 02, ...
+      frames.push(`images/frame_${num}.jpg`);
+    }
 
-  $('#spinner').spritespin({
-    source: frames,
-    width: 600,
-    height: 400,
-    sense: -1,
-    animate: false,
-    loop: false,
-    frameTime: 60,
-    responsive: true,
-    enableZoom: false,
-    wrap: true,
-    plugins: ['360', 'drag']
-  });
-</script>
-
+    $('#spinner').spritespin({
+      source: frames,
+      width: 600,
+      height: 400,
+      sense: -1,
+      animate: false,
+      loop: false,
+      frameTime: 60,
+      responsive: true,
+      enableZoom: false,
+      wrap: true,
+      plugins: ['360', 'drag']
+    });
+  </script>
 </body>
 </html>
