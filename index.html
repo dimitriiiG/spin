@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вращение трактора Bawol</title>
+  <style>
+    body { background: #f8f8f8; margin: 0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #spinner { width: 100%; max-width: 600px; margin: auto; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.css" />
+</head>
+<body>
+
+<div id="spinner"></div>
+
+<script>
+  const frames = [];
+
+  $('#spinner').spritespin({
+    source: frames,
+    width: 600,
+    height: 400,
+    sense: -1,
+    animate: false,
+    loop: false,
+    frameTime: 60,
+    responsive: true,
+    enableZoom: false,
+    wrap: true,
+    plugins: [
+      '360',
+      'drag'
+    ]
+  });
+</script>
+
+</body>
+</html>
