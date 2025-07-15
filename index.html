@@ -31,8 +31,10 @@
 
     for (let i = 0; i < frameCount; i++) {
       const num = i.toString().padStart(2, '0'); // 00, 01, 02, ...
-      frames.push(`images/frame_${num}.jpg`);
+      frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
     }
+
+    console.log('Загружаемые изображения:', frames);
 
     $('#spinner').spritespin({
       source: frames,
