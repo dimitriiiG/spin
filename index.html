@@ -27,14 +27,12 @@
 
   <script>
     const frames = [];
-const frameCount = 24;
+    const frameCount = 24;
 
-for (let i = 0; i < frameCount; i++) {
-  const num = i.toString().padStart(2, '0'); // 00, 01, 02, ...
-  frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
-}
-
-    console.log('Загружаемые изображения:', frames);
+    for (let i = 0; i < frameCount; i++) {
+      const num = i.toString().padStart(2, '0'); // 00, 01, ..., 23
+      frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
+    }
 
     $('#spinner').spritespin({
       source: frames,
@@ -42,11 +40,11 @@ for (let i = 0; i < frameCount; i++) {
       height: 400,
       sense: -1,
       animate: false,
-      loop: false,
+      loop: true,           // ВАЖНО: чтобы не было белого экрана
+      wrap: true,           // ВАЖНО: для замыкания цикла
       frameTime: 60,
       responsive: true,
       enableZoom: false,
-      wrap: true,
       plugins: ['360', 'drag']
     });
   </script>
