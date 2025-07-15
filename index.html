@@ -1,12 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Вращение трактора Bawol</title>
   <style>
-    body { background: #f8f8f8; margin: 0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    #spinner { width: 100%; max-width: 600px; margin: auto; }
+    body {
+      background: #f8f8f8;
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #spinner {
+      width: 600px;
+      height: 400px;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.js"></script>
@@ -17,7 +27,13 @@
 <div id="spinner"></div>
 
 <script>
+  // Генерация списка путей к изображениям
   const frames = [];
+  const frameCount = 36; // ← если у тебя 36 кадров. Измени, если другое количество
+  for (let i = 1; i <= frameCount; i++) {
+    const num = i.toString().padStart(3, '0');
+    frames.push(`images/frame${num}.jpg`);
+  }
 
   $('#spinner').spritespin({
     source: frames,
@@ -30,10 +46,7 @@
     responsive: true,
     enableZoom: false,
     wrap: true,
-    plugins: [
-      '360',
-      'drag'
-    ]
+    plugins: ['360', 'drag']
   });
 </script>
 
