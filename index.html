@@ -72,28 +72,34 @@
 
     let api;
 
-    $('#spinner').spritespin({
-      source: frames,
-      width: '100%',
-      height: '100%',
-      sense: -1,
-      animate: false,
-      loop: false,
-      frameTime: 60,
-      responsive: true,
-      wrap: true,
-      plugins: ['360', 'drag'],
-      onInit: function(e, data){
-        api = data.api;
-      }
-    });
+    window.addEventListener('load', () => {
+      const container = document.getElementById("spinner");
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
 
-    $('#leftArrow').on('click', function () {
-      api && api.prevFrame();
-    });
+      $('#spinner').spritespin({
+        source: frames,
+        width: width,
+        height: height,
+        sense: -1,
+        animate: false,
+        loop: false,
+        frameTime: 60,
+        responsive: true,
+        wrap: true,
+        plugins: ['360', 'drag'],
+        onInit: function(e, data){
+          api = data.api;
+        }
+      });
 
-    $('#rightArrow').on('click', function () {
-      api && api.nextFrame();
+      document.getElementById('leftArrow').addEventListener('click', () => {
+        api && api.prevFrame();
+      });
+
+      document.getElementById('rightArrow').addEventListener('click', () => {
+        api && api.nextFrame();
+      });
     });
   </script>
 </body>
