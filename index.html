@@ -10,7 +10,6 @@
       background: #f8f8f8;
       height: 100%;
       width: 100%;
-      overflow: hidden;
       font-family: sans-serif;
     }
 
@@ -18,12 +17,17 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: #f8f8f8;
     }
 
     #spinner {
       width: 100%;
-      height: 100%;
+      max-width: 100vw;
+      height: auto;
+      aspect-ratio: 3 / 2; /* Соотношение сторон 600x400 */
       cursor: grab;
     }
 
@@ -33,17 +37,24 @@
       transform: translateY(-50%);
       background: rgba(255, 255, 255, 0.6);
       border: none;
-      font-size: 30px;
+      font-size: 28px;
       cursor: pointer;
       z-index: 10;
-      padding: 10px 14px;
+      padding: 12px;
+      border-radius: 50%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      border-radius: 6px;
     }
 
     .arrow:hover {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .arrow span {
+      font-size: 10px;
+      margin-top: 4px;
+      color: #333;
     }
 
     #leftArrow {
@@ -54,9 +65,15 @@
       right: 10px;
     }
 
-    .arrow span {
-      margin-left: 8px;
-      font-size: 16px;
+    @media (max-width: 600px) {
+      .arrow {
+        font-size: 22px;
+        padding: 10px;
+      }
+
+      .arrow span {
+        font-size: 9px;
+      }
     }
   </style>
 
@@ -66,9 +83,9 @@
 </head>
 <body>
   <div id="container">
-    <button class="arrow" id="leftArrow">&#x21ba;<span>Поверни</span></button>
+    <button class="arrow" id="leftArrow">&#x21ba;<span>Крути</span></button>
     <div id="spinner"></div>
-    <button class="arrow" id="rightArrow"><span>Поверни</span>&#x21bb;</button>
+    <button class="arrow" id="rightArrow">&#x21bb;<span>Крути</span></button>
   </div>
 
   <script>
@@ -77,28 +94,24 @@
 
     for (let i = 0; i < frameCount; i++) {
       const num = i.toString().padStart(2, '0');
-      frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
+      frames.push(`https://dimitriiig.github.io/spin/images/frame_${num}.jpg`);
     }
 
     let api;
 
     window.addEventListener('load', () => {
-      const container = document.getElementById("spinner");
-      const width = container.offsetWidth;
-      const height = container.offsetHeight;
-
       $('#spinner').spritespin({
         source: frames,
-        width: width,
-        height: height,
+        width: '100%',
+        height: '100%',
         sense: -1,
         animate: false,
         loop: false,
-        frameTime: 60,
+        frameTime: 40, // чуть быстрее — плавнее переход
         responsive: true,
         wrap: true,
         plugins: ['360', 'drag'],
-        onInit: function(e, data){
+        onInit: function (e, data) {
           api = data.api;
         }
       });
@@ -111,12 +124,11 @@
         api && api.nextFrame();
       });
 
-      // Полноэкранный режим при клике
-      container.addEventListener('click', () => {
+      // Полноэкранный режим по клику на изображение
+      document.getElementById('spinner').addEventListener('click', () => {
+        const elem = document.getElementById('container');
         if (!document.fullscreenElement) {
-          container.requestFullscreen().catch(err => {
-            console.error(`Ошибка открытия полного экрана: ${err.message}`);
-          });
+          elem.requestFullscreen().catch(err => console.error(err));
         } else {
           document.exitFullscreen();
         }
