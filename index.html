@@ -18,27 +18,32 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      background: #f8f8f8;
     }
 
     #spinner {
       width: 100%;
       height: 100%;
+      cursor: grab;
     }
 
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.6);
       border: none;
-      font-size: 40px;
+      font-size: 30px;
       cursor: pointer;
       z-index: 10;
-      padding: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
     }
 
     .arrow:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.85);
     }
 
     #leftArrow {
@@ -48,6 +53,11 @@
     #rightArrow {
       right: 10px;
     }
+
+    .arrow span {
+      margin-left: 8px;
+      font-size: 16px;
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -56,9 +66,9 @@
 </head>
 <body>
   <div id="container">
-    <button class="arrow" id="leftArrow">&#8592;</button>
+    <button class="arrow" id="leftArrow">&#x21ba;<span>Поверни</span></button>
     <div id="spinner"></div>
-    <button class="arrow" id="rightArrow">&#8594;</button>
+    <button class="arrow" id="rightArrow"><span>Поверни</span>&#x21bb;</button>
   </div>
 
   <script>
@@ -99,6 +109,17 @@
 
       document.getElementById('rightArrow').addEventListener('click', () => {
         api && api.nextFrame();
+      });
+
+      // Полноэкранный режим при клике
+      container.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          container.requestFullscreen().catch(err => {
+            console.error(`Ошибка открытия полного экрана: ${err.message}`);
+          });
+        } else {
+          document.exitFullscreen();
+        }
       });
     });
   </script>
