@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Вращение трактора Bawol</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bawol 360</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #f8f8f8;
       height: 100%;
-      width: 100%;
-      font-family: sans-serif;
+      background: #f8f8f8;
     }
 
     #container {
       position: relative;
-      width: 100vw;
+      width: 100%;
       height: 100vh;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f8f8f8;
     }
 
     #spinner {
       width: 100%;
       height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       cursor: grab;
     }
 
@@ -37,85 +41,73 @@
       cursor: pointer;
       z-index: 10;
       padding: 10px 14px;
-      display: flex;
-      align-items: center;
       border-radius: 6px;
-    }
-
-    .arrow:hover {
-      background: rgba(255, 255, 255, 0.85);
     }
 
     #leftArrow { left: 10px; }
     #rightArrow { right: 10px; }
 
-    .arrow span {
-      margin-left: 6px;
-      font-size: 14px;
+    @media (max-width: 768px) {
+      .arrow {
+        font-size: 24px;
+        padding: 8px 12px;
+      }
     }
   </style>
-
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.min.css" />
 </head>
 <body>
-  <div id="container">
-    <button class="arrow" id="leftArrow">&#x21ba;<span>Поверни</span></button>
-    <div id="spinner"></div>
-    <button class="arrow" id="rightArrow"><span>Поверни</span>&#x21bb;</button>
-  </div>
 
-  <script>
-    const frames = [];
-    const frameCount = 24;
+<div id="container">
+  <button class="arrow" id="leftArrow">&#x21ba;</button>
+  <div id="spinner"></div>
+  <button class="arrow" id="rightArrow">&#x21bb;</button>
+</div>
 
-    for (let i = 0; i < frameCount; i++) {
-      const num = i.toString().padStart(2, '0');
-      frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
-    }
+<script>
+  const frames = [];
+  const frameCount = 24;
 
-    let api;
+  for (let i = 0; i < frameCount; i++) {
+    const num = i.toString().padStart(2, '0');
+    frames.push(`https://dimitriiiG.github.io/spin/images/frame_${num}.jpg`);
+  }
 
-    window.addEventListener('load', () => {
-      const spinner = document.getElementById("spinner");
+  let api;
 
-      $('#spinner').spritespin({
-        source: frames,
-        width: spinner.offsetWidth,
-        height: spinner.offsetHeight,
-        sense: -1,
-        animate: false,
-        loop: false,
-        frameTime: 60,
-        responsive: true,
-        wrap: true,
-        plugins: ['360', 'drag'],
-        onInit: function(e, data){
-          api = data.api;
-        }
-      });
-
-      // Стрелки
-      document.getElementById('leftArrow').addEventListener('click', () => {
-        api && api.prevFrame();
-      });
-
-      document.getElementById('rightArrow').addEventListener('click', () => {
-        api && api.nextFrame();
-      });
-
-      // Полноэкранный режим при касании или клике
-      spinner.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          spinner.requestFullscreen().catch(err => {
-            console.error(`Ошибка открытия полного экрана: ${err.message}`);
-          });
-        } else {
-          document.exitFullscreen();
-        }
-      });
+  $(window).on('load', function () {
+    $('#spinner').spritespin({
+      source: frames,
+      width: $('#spinner').width(),
+      height: $('#spinner').height(),
+      sense: -1,
+      animate: false,
+      loop: false,
+      frameTime: 60,
+      responsive: true,
+      wrap: true,
+      plugins: ['360', 'drag'],
+      onInit: function (e, data) {
+        api = data.api;
+      }
     });
-  </script>
+
+    $('#leftArrow').on('click', () => api && api.prevFrame());
+    $('#rightArrow').on('click', () => api && api.nextFrame());
+
+    // Fullscreen on click
+    document.getElementById('spinner').addEventListener('click', () => {
+      const container = document.getElementById('container');
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(err => console.error(err));
+      } else {
+        document.exitFullscreen();
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
